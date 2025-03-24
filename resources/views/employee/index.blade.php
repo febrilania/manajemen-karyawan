@@ -40,7 +40,7 @@
                                 <td>{{ $employee->status }}</td>
                                 <td>
                                     <a href="{{route('employees.show', $employee->id)}}" class="btn btn-success btn-sm ">Detail</a>
-                                    <a href="#" class="btn btn-warning btn-sm ">Edit</a>
+                                    <a href="{{route('employees.edit', $employee->id)}}" class="btn btn-warning btn-sm ">Edit</a>
                                     <form action="{{ route('employees.destroy', $employee->id) }}" method="POST"
                                         class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?')">
                                         @csrf
