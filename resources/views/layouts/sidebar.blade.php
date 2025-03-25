@@ -43,6 +43,12 @@
                             Karyawan
                         </a>
                     </div>
+                    <div class="nav">
+                        <a class="nav-link" href="{{ route('attendances.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-calendar-check"></i></div>
+                            Absensi
+                        </a>
+                    </div>
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>

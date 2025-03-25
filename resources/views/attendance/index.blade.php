@@ -7,42 +7,44 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-        <h1 class="mb-4">Karyawan</h1>
-        <div class="my-2">
-            <a href="{{route('employees.create')}}" class="btn btn-primary">Tambah Karyawan</a>
-        </div>
+        <h1>Absensi</h1>
+        <a href="{{route('attendances.create')}}" class="btn btn-primary my-3">Tambah Absen</a>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                Tabel Departemen
+                Tabel Absensi
             </div>
             <div class="card-body">
                 <table id="datatablesSimple">
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
-                            <th>NIK</th>
                             <th>Nama</th>
                             <th>Jabatan</th>
                             <th>Departemen</th>
+                            <th>Tanggal Absensi</th>
+                            <th>Cek In</th>
+                            <th>Cek Out</th>
                             <th>status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($employees as $key => $employee)
+                        @foreach ($attendances as $key => $attendance)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $employee->nik }}</td>
-                                <td>{{ $employee->name }}</td>
-                                <td>{{ $employee->position->name }}</td>
-                                <td>{{ $employee->department->name }}</td>
-                                <td>{{ $employee->status }}</td>
+                                <td>{{ $attendance->employee->name }}</td>
+                                <td>{{ $attendance->employee->position->name }}</td>
+                                <td>{{ $attendance->employee->department->name }}</td>
+                                <td>{{ \Carbon\Carbon::parse($attendance->date)->format('d-m-Y') }}</td>
+                                <td>{{ $attendance->check_in }}</td>
+                                <td>{{ $attendance->check_out }}</td>
+                                <td>{{ $attendance->status }}</td>
                                 <td>
-                                    <a href="{{route('employees.show', $employee->id)}}" class="btn btn-success btn-sm ">Detail</a>
-                                    <a href="{{route('employees.edit', $employee->id)}}" class="btn btn-warning btn-sm ">Edit</a>
-                                    <form action="{{ route('employees.destroy', $employee->id) }}" method="POST"
-                                        class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?')">
+                                    <a href="" class="btn btn-success btn-sm ">Detail</a>
+                                    <a href="#" class="btn btn-warning btn-sm ">Edit</a>
+                                    <form action="#" method="POST" class="d-inline"
+                                        onsubmit="return confirm('Yakin ingin menghapus?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm ">Hapus</button>

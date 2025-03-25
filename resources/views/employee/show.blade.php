@@ -70,7 +70,7 @@
                     <a href="{{ route('employees.index') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Kembali
                     </a>
-                    <a href="" class="btn btn-warning">
+                    <a href="{{route('employees.edit', $employee->id)}}" class="btn btn-warning">
                         <i class="fas fa-edit"></i> Edit
                     </a>
                     <form action="{{ route('employees.destroy', $employee->id) }}" method="POST" class="d-inline"

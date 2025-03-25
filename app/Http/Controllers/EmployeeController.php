@@ -64,7 +64,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        $employee->load(['department','position']);
+        $employee->load(['department', 'position']);
         return view('employee.show', compact('employee'));
     }
 
@@ -73,7 +73,10 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        $departments = Department::all();
+        $positions = Position::all();
+
+        return view('employee.edit', compact('employee', 'departments', 'positions'));
     }
 
     /**
@@ -81,7 +84,29 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+        $validated = $request->validate([
+            'nik' => 'required|string|max:20|unique:employees,nik,' . $employee->id,
+            'name' => 'required|string|max:100',
+            'position_id' => 'required|exists:positions,id',
+            'department_id' => 'required|exists:departments,id',
+            'phone' => 'nullable|string|max:15',
+            'address' => 'nullable|string',
+            'hire_date' => 'required|date',
+            'status' => 'required|in:Permanent,Contract,Internship',
+            'salary' => 'required|numeric|min:0',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('uploads/employees', $filename, 'public');
+            $validated['photo'] = $path;
+        }
+
+        $employee->update($validated);
+
+        return redirect()->route('employees.index')->with('success', 'Data karyawan berhasil diubah');
     }
 
     /**
