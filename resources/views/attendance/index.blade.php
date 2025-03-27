@@ -8,13 +8,14 @@
             </div>
         @endif
         <h1>Absensi</h1>
-        <a href="{{route('attendances.create')}}" class="btn btn-primary my-3">Tambah Absen</a>
+        <a href="{{ route('attendances.create') }}" class="btn btn-primary my-3">Tambah Absen</a>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
                 Tabel Absensi
             </div>
             <div class="card-body">
+
                 <table id="datatablesSimple">
                     <thead class="table-dark">
                         <tr>
@@ -41,10 +42,10 @@
                                 <td>{{ $attendance->check_out }}</td>
                                 <td>{{ $attendance->status }}</td>
                                 <td>
-                                    <a href="" class="btn btn-success btn-sm ">Detail</a>
-                                    <a href="#" class="btn btn-warning btn-sm ">Edit</a>
-                                    <form action="#" method="POST" class="d-inline"
-                                        onsubmit="return confirm('Yakin ingin menghapus?')">
+                                    <a href="{{ route('attendances.edit', $attendance->id) }}"
+                                        class="btn btn-warning btn-sm ">Edit</a>
+                                    <form action="{{ route('attendances.destroy', $attendance->id) }}" method="POST"
+                                        class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm ">Hapus</button>

@@ -58,7 +58,8 @@ class AttendanceController extends Controller
      */
     public function edit(Attendance $attendance)
     {
-        //
+        $employees = Employee::all();
+        return view('attendance.edit', compact('attendance', 'employees'));
     }
 
     /**
@@ -66,7 +67,16 @@ class AttendanceController extends Controller
      */
     public function update(Request $request, Attendance $attendance)
     {
-        //
+        $validated = $request->validate([
+            'employee_id' => 'required',
+            'date' => 'required|date',
+            'check_in' => 'nullable|date_format:Y-m-d\TH:i',
+            'check_out' => 'nullable|date_format:Y-m-d\TH:i',
+            'status' => 'required|string|in:present,absent,on_leave,late'
+        ]);
+
+        $attendance->update($validated);
+        return redirect()->route('attendances.index')->with('success', 'berhasil mengubah data');
     }
 
     /**
@@ -74,6 +84,7 @@ class AttendanceController extends Controller
      */
     public function destroy(Attendance $attendance)
     {
-        //
+        $attendance->delete();
+        return redirect()->back()->with('success','berhasil menghapus data');
     }
 }
