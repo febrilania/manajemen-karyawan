@@ -62,6 +62,31 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function loginAdmin(Request $request)
+    {
+        $request->validate([
+            'username' => ['required', 'exists:users,username'],
+            'password' => ['required'],
+        ], [
+            'username.required' => 'Username wajib diisi.',
+            'username.exists' => 'Username tidak terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+        ]);
+
+        // Lakukan proses login menggunakan Auth
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            return redirect()->route('dashboard')->with('success', 'Login berhasil!');
+        }
+
+        return back()->withErrors(['password' => 'Password salah.'])->withInput();
+    }
+
+    public function loginAdminForm()
+    {
+        return view('auth.login-admin');
+    }
+    
+
     public function login(Request $request)
     {
         $request->validate([

@@ -62,5 +62,8 @@ Route::middleware(['guest'])->group(function(){
     Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/login-admin', [AuthController::class, 'loginAdminForm'])->name('login-admin');
+    Route::post('/login-admin', [AuthController::class, 'loginAdmin'])->name('login-admin.post');
 });
 

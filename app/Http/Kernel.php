@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -13,6 +14,36 @@ class Kernel extends HttpKernel
      *
      * @var array<int, class-string|string>
      */
+
+
+     protected function schedule(Schedule $schedule)
+     {
+         $schedule->call(function () {
+             $today = now()->toDateString();
+ 
+             $employees = \App\Models\Employee::all(); // Ambil semua karyawan
+ 
+             foreach ($employees as $employee) {
+                 $alreadyExists = \App\Models\Attendance::where('employee_id', $employee->id)
+                     ->where('date', $today)
+                     ->exists();
+ 
+                 if (!$alreadyExists) {
+                     \App\Models\Attendance::create([
+                         'employee_id' => $employee->id,
+                         'date' => $today,
+                         'status' => 'absent'
+                     ]);
+                 }
+             }
+         })->dailyAt('00:01'); // Jalankan setiap hari jam 00:01
+     }
+ 
+     /**
+      * Register the commands for the application.
+      */
+
+
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,

@@ -87,4 +87,18 @@ class AttendanceController extends Controller
         $attendance->delete();
         return redirect()->back()->with('success','berhasil menghapus data');
     }
+
+    public function getDateUser(){
+        $today = date('Y-m-d');
+        $alreadyExists = Attendance::where('employee_id', auth()->user()->employee->id)
+            ->where('date', $today)
+            ->exists();
+        if(!$alreadyExists){
+            Attendance::create([
+                'employee_id' => auth()->user()->employee->id,
+                'date' => $today,
+                'status' => 'absent'
+            ]);
+        }
+    }
 }
